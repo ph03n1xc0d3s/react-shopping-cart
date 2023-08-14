@@ -10,6 +10,7 @@ import { StyledButton } from "./components/App.style";
 import { getProducts } from "./react-query/ReactQueryApi";
 import Item from "./components/item/Item";
 import Cart from "./components/Cart/Cart";
+import { Header } from "./components/App.style";
 
 export type CartItemType = {
   id: number;
@@ -65,27 +66,35 @@ const App = () => {
   if (error) return <p>Something went wrong...</p>;
 
   return (
-    <Wrapper>
-      <Drawer anchor="right" open={cartOpen} onClose={() => setCartOpen(false)}>
-        <Cart
-          cartItems={cartItems}
-          addToCart={handleAddToCart}
-          removeFromCart={handleRemoveFromCart}
-        />
-      </Drawer>
-      <StyledButton onClick={() => setCartOpen(true)}>
-        <Badge badgeContent={getTotalItems(cartItems)} color="error">
-          <AddShoppingCart />
-        </Badge>
-      </StyledButton>
-      <Grid container spacing={3}>
-        {data?.map((item) => (
-          <Grid item key={item.id} xs={12} sm={4}>
-            <Item item={item} handleAddToCart={handleAddToCart} />
-          </Grid>
-        ))}
-      </Grid>
-    </Wrapper>
+    <>
+      <Header>
+        <Drawer
+          anchor="right"
+          open={cartOpen}
+          onClose={() => setCartOpen(false)}
+        >
+          <Cart
+            cartItems={cartItems}
+            addToCart={handleAddToCart}
+            removeFromCart={handleRemoveFromCart}
+          />
+        </Drawer>
+        <StyledButton onClick={() => setCartOpen(true)}>
+          <Badge badgeContent={getTotalItems(cartItems)} color="error">
+            <AddShoppingCart />
+          </Badge>
+        </StyledButton>
+      </Header>
+      <Wrapper>
+        <Grid container spacing={3}>
+          {data?.map((item) => (
+            <Grid item key={item.id} xs={12} sm={4}>
+              <Item item={item} handleAddToCart={handleAddToCart} />
+            </Grid>
+          ))}
+        </Grid>
+      </Wrapper>
+    </>
   );
 };
 
